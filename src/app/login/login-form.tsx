@@ -13,9 +13,8 @@ import { authClient } from "@/lib/auth-client";
 export function LoginForm() {
   const router = useRouter();
   const redirect = useSearchParams().get("redirect");
-  // Only allow same-site paths to avoid open redirects.
-  const target =
-    redirect?.startsWith("/") && !redirect.startsWith("//") ? redirect : "/";
+  // Only allow same-origin paths. Parsing with URL also catches "/\evil.com" tricks.
+  const target = safePath(redirect);
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -66,4 +65,10 @@ export function LoginForm() {
       </p>
     </AuthCard>
   );
+}
+
+function safePath(redirect: string | null) {
+  // A fake base keeps this safe to run on the server too.
+  const url = new URL(redirect ?? "/", "http://local");
+  return url.origin === "http://local" ? url.pathname + url.search : "/";
 }

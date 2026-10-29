@@ -14,5 +14,8 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  // No email verification (per spec), so never auto-link a Google login to a
+  // password account someone else may have registered with that email.
+  account: { accountLinking: { enabled: false } },
   plugins: [jwt(), nextCookies()],
 });

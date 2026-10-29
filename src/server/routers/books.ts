@@ -28,7 +28,8 @@ export const booksRouter = router({
     .input(z.object({ limit: z.number().int().min(0).default(0) }).optional())
     .query(({ input }) =>
       books
-        .find()
+        // Public list: hide the uploader's email.
+        .find({}, { projection: { "addedBy.email": 0 } })
         .sort({ createdAt: -1 })
         .limit(input?.limit ?? 0)
         .toArray(),
