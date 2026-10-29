@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc/client";
 
 export function NewArrivals() {
-  const { data, isLoading } = trpc.books.list.useQuery({ limit: 6 });
+  const { data, isLoading } = trpc.books.list.useQuery({ limit: 10 });
 
   return (
     <section className="container mx-auto px-4 py-20">
