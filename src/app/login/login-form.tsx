@@ -70,5 +70,8 @@ export function LoginForm() {
 function safePath(redirect: string | null) {
   // A fake base keeps this safe to run on the server too.
   const url = new URL(redirect ?? "/", "http://local");
-  return url.origin === "http://local" ? url.pathname + url.search : "/";
+  if (url.origin !== "http://local") return "/";
+  // Dot segments like "/.//evil.com" normalize to "//evil.com", which a browser
+  // reads as another host. Collapse leading slashes to one.
+  return `/${url.pathname.replace(/^\/+/, "")}${url.search}`;
 }
