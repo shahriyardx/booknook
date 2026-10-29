@@ -37,6 +37,5 @@ Next.js (App Router) · TypeScript · shadcn/ui · Tailwind CSS · tRPC · TanSt
 ```bash
 cp .env.example .env.local   # fill in the values
 bun install
-bun --env-file=.env.local scripts/seed.mjs  # optional: 50 starter books (also runs on Docker start)
 bun dev
 ```

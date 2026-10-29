@@ -21,8 +21,6 @@ ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
 COPY --from=build --chown=node:node /app/public ./public
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
-COPY --from=build --chown=node:node /app/scripts/seed.mjs ./scripts/seed.mjs
 USER node
 EXPOSE 3000
-# Seed first (no-op after the first run); a seed failure must not stop the app.
-CMD ["sh", "-c", "node scripts/seed.mjs; exec node server.js"]
+CMD ["node", "server.js"]
